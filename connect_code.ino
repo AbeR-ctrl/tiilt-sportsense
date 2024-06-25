@@ -76,6 +76,12 @@ void scan_callback(ble_gap_evt_adv_report_t* report)
   Serial.printBufferReverse(report->peer_addr.addr, 6, ':');
   Serial.println();
 
+  if (Bluefruit.Scanner.checkReportForUuid(report, ACCEL_CHARACTERISTIC_UUID)) {
+    Serial.println("Found device with the desired service UUID!");
+  }else{
+    Serial.println("Didn't find UUID...");
+  }
+
   // Check if the device has the expected name
   uint8_t buffer[32] = {0};
   if (Bluefruit.Scanner.parseReportByType(report, BLE_GAP_AD_TYPE_COMPLETE_LOCAL_NAME, buffer, sizeof(buffer))) {
